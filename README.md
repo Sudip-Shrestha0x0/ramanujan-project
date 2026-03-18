@@ -5,6 +5,8 @@
 Sudip Shrestha · Independent Researcher, Ottawa, Canada · March 2026
 
 ---
+[Ramanujan-Project](https://ramanujan-project.netlify.app/)
+---
 
 ## Overview
 
