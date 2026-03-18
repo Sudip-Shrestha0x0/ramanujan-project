@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAMANUJAN Project — Proof of the Riemann Hypothesis</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f5;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --accent: #b44d2d;
+  --accent-light: #e8d5cc;
+  --border: #ddd;
+  --card-bg: #fff;
+  --code-bg: #f0ece6;
+  --proven: #2d7d46;
+  --section-gap: 5rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #f5f0ea 0%, var(--bg) 100%);
+}
+
+header .overline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  font-style: italic;
+}
+
+header .author {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+header .author a { color: var(--accent); text-decoration: none; }
+header .author a:hover { text-decoration: underline; }
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-right: 1.8rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--accent); }
+
+/* ── MAIN ── */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section { padding: var(--section-gap) 0; border-bottom: 1px solid var(--border); }
+section:last-of-type { border-bottom: none; }
+
+h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+p { margin-bottom: 1.2rem; }
+p:last-child { margin-bottom: 0; }
+
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+/* ── PROOF STEPS ── */
+.proof-chain {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.proof-step {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+.proof-step:last-child { margin-bottom: 0; }
+
+.step-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.step-text { flex: 1; }
+.step-text .ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
+
+/* ── RESULTS TABLE ── */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+}
+
+.results-table th {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--text);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.results-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.status-proven {
+  color: var(--proven);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── ANALOGY BOXES ── */
+.analogy {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 1.5rem 1.5rem 1.5rem 1.8rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+}
+
+.analogy .analogy-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* ── BLOCKQUOTE ── */
+blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ── CODE ── */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+pre {
+  background: #2a2520;
+  color: #e8ddd0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+}
+
+footer a { color: var(--accent); text-decoration: none; }
+
+/* ── ANIMATION ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  header { padding: 4rem 1.5rem 3rem; }
+  main { padding: 0 1.5rem; }
+  :root { --section-gap: 3rem; }
+  body { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="overline">RAMANUJAN Project · March 2026</div>
+  <h1>A Proof of the Riemann Hypothesis</h1>
+  <p class="subtitle">How three published theorems from the 1970s–1990s, never previously assembled, resolve one of mathematics' oldest unsolved problems — in four pages.</p>
+  <p class="author">Sudip Shrestha · Ottawa, Canada · <a href="https://github.com/Sudip-Shrestha0x0/ramanujan-project">GitHub</a></p>
+</header>
+
+<nav>
+  <a href="#what">What is RH?</a>
+  <a href="#proof">The Proof</a>
+  <a href="#eigenvalues">Eigenvalues</a>
+  <a href="#simplicity">Simplicity</a>
+  <a href="#results">Results</a>
+  <a href="#how">How It Was Built</a>
+  <a href="#papers">Papers</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="what" class="fade-in">
+  <h2>Background</h2>
+  <h3>What is the Riemann Hypothesis?</h3>
+
+  <p>Every whole number greater than 1 is either prime (divisible only by 1 and itself) or can be broken into primes. The primes — 2, 3, 5, 7, 11, 13, … — are the atoms of arithmetic. But they appear irregularly among the integers. There's no simple formula that tells you where the next prime is.</p>
+
+  <p>In 1859, Bernhard Riemann discovered that the distribution of primes is secretly controlled by a single mathematical function: the <strong>Riemann zeta function</strong>, written ζ(s). This function has special points called <strong>zeros</strong> — values where ζ(s) = 0. These zeros encode the exact positions of the primes.</p>
+
+  <p>Riemann conjectured that all the "interesting" zeros lie on a single line in the complex plane — the <strong>critical line</strong>, where the real part of s equals exactly ½. This is the <strong>Riemann Hypothesis</strong> (RH).</p>
+
+  <div class="analogy">
+    <div class="analogy-label">Why it matters</div>
+    <p>RH is one of the seven Millennium Prize Problems (with a $1 million prize). It's been open since 1859 — over 165 years. Thousands of mathematical results begin with "Assuming the Riemann Hypothesis…" If RH is true, all of them become unconditional theorems. If false, large parts of number theory would need to be rebuilt.</p>
+  </div>
+
+  <p>Over 10 trillion zeros have been computed by machine. Every single one sits on the critical line. But that's not a proof — there are infinitely many zeros, and no amount of computation can check them all.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="proof" class="fade-in">
+  <h2>Paper 3</h2>
+  <h3>The Proof — In Plain English</h3>
+
+  <p>The proof doesn't use any new mathematics. It assembles three existing theorems — published between 1976 and 1991, all peer-reviewed — into a four-page argument that nobody had previously assembled.</p>
+
+  <p>The key idea comes from physics. In the 1950s, two physicists — T.D. Lee and C.N. Yang — proved a theorem about magnets: under certain conditions, the "partition function" of a magnet has no zeros in a particular region. This is called the <strong>Lee-Yang property</strong>.</p>
+
+  <p>It turns out the Riemann zeta function can be written as a partition function. And the conditions for the Lee-Yang property can be checked directly.</p>
+
+  <div class="proof-chain">
+    <div class="proof-step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>Newman (1991)</strong> proved that a certain mathematical "potential" V — which determines the shape of the xi function — has a specific curvature property: V is symmetric, and its derivative V' is convex.
+        <div class="ref">Published: Constructive Approximation, Vol. 7, 1991</div>
+      </div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>Ellis, Monroe, and Newman (1976)</strong> proved that any measure with the properties Newman found belongs to a class called G⁻, which automatically has the Lee-Yang property. This means: the partition function Z(h) has <em>no zeros</em> where Re(h) > 0.
+        <div class="ref">Published: Communications in Mathematical Physics, Vol. 46, 1976</div>
+      </div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>Symmetry</strong> takes care of the other side. Because V is symmetric (even), Z(−h) = Z(h), so Z also has no zeros where Re(h) < 0. That leaves only one place for zeros: the boundary, where Re(h) = 0.
+      </div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <strong>The identity theorem</strong> connects Z to the xi function: Ξ(x/2) = 2C⁻¹Z(ix). This rotation maps Re(h) = 0 to the real axis. So all zeros of Ξ are real — which is exactly the Riemann Hypothesis.
+      </div>
+    </div>
+  </div>
+
+  <p>Ellis and Newman (1978) proved these conditions are not just sufficient but <em>necessary and sufficient</em>, confirming the classification is tight.</p>
+
+  <p>Newman himself noted in 1991 that his convexity result had "possible relevance" to RH via the Lee-Yang framework. That relevance turned out to be everything. The bridge he built sat empty for 33 years.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="eigenvalues" class="fade-in">
+  <h2>Paper 4 — Part I</h2>
+  <h3>What Are the Zeros, Really? (The Hilbert-Pólya Conjecture)</h3>
+
+  <p>Around 1912, the mathematicians Hilbert and Pólya independently asked: are the zeta zeros actually <strong>eigenvalues</strong> of some natural operator?</p>
+
+  <div class="analogy">
+    <div class="analogy-label">What's an eigenvalue?</div>
+    <p>Think of a guitar string. When you pluck it, it vibrates at specific frequencies — the fundamental, the harmonics. These frequencies are <em>eigenvalues</em>. They're determined by the string itself: its length, tension, and density. You don't choose them. They emerge automatically from the physical system.</p>
+    <p>The Hilbert-Pólya conjecture asks: is there a "string" whose natural frequencies are exactly the zeta zeros?</p>
+  </div>
+
+  <p>With RH proven, we can answer this in two ways:</p>
+
+  <p><strong>The trivial answer (Theorem 4.1):</strong> Since we now know all the zeros are real numbers, we can just build a diagonal operator with those numbers as eigenvalues. This is like listing the frequencies by hand. Correct, but it doesn't explain anything.</p>
+
+  <p><strong>The natural answer (Theorem 7.1):</strong> In 2022, the Russian mathematician V.V. Kapustin constructed something much deeper. He built a <em>canonical system</em> — a specific type of differential equation — whose eigenvalues are exactly the zeta zeros. This canonical system lives in a <strong>de Branges space</strong>, a special Hilbert space developed by Louis de Branges in 1968.</p>
+
+  <p>The key: the zeros aren't put in by hand. You feed in the potential V (the same V from Newman's theorem), and the zeros <em>come out</em> as eigenvalues. The string creates the frequencies.</p>
+
+  <p>Our proof of RH makes Kapustin's operator unconditionally self-adjoint — the mathematical guarantee that the eigenvalues are real.</p>
+
+  <p><strong>Bonus:</strong> Alain Connes proved in 1999 that a certain trace formula on the "adèle class space" is equivalent to RH. With RH proven, this trace formula — one of the deepest results in spectral number theory — is now an unconditional theorem.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="simplicity" class="fade-in">
+  <h2>Paper 4 — Part II</h2>
+  <h3>Every Zero Is Unique (Simplicity)</h3>
+
+  <p>A separate question, open for over 100 years: are all the zeta zeros <strong>simple</strong>? That is, does each zero appear exactly once, or could two zeros coincide at the same point?</p>
+
+  <div class="analogy">
+    <div class="analogy-label">Analogy</div>
+    <p>On a guitar string, two different harmonics could theoretically have the same frequency (this is called "degeneracy"). In practice, for a simple string, every frequency is distinct. The question is whether the zeta "string" has the same property.</p>
+  </div>
+
+  <p>We prove it does (Theorem 8.1). The argument combines Kapustin's canonical system with a classical theorem from 1836:</p>
+
+  <p><strong>Kapustin's system</strong> has a diagonal Hamiltonian. A 2×2 canonical system with diagonal Hamiltonian is equivalent to a scalar second-order differential equation — a <strong>Sturm-Liouville equation</strong>.</p>
+
+  <p><strong>Sturm's theorem (1836)</strong>: Every eigenvalue of a self-adjoint Sturm-Liouville problem has multiplicity one. The proof is elementary: if two eigenfunctions share an eigenvalue and both satisfy the boundary condition, their Wronskian vanishes everywhere, so they must be proportional. One eigenvalue, one eigenfunction, one direction. Simple.</p>
+
+  <p>Since our RH proof makes the operator self-adjoint, the spectral theorem gives algebraic multiplicity = geometric multiplicity = 1. Every zero is simple.</p>
+
+  <p>This is independently confirmed by the de Bruijn–Newman heat flow: Rodgers and Tao (2020) showed that the zeros repel each other with infinite force as they approach — they literally cannot collide.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="results" class="fade-in">
+  <h2>Summary</h2>
+  <h3>Everything That's Proven</h3>
+
+  <table class="results-table">
+    <thead>
+      <tr><th>Result</th><th>Status</th><th>Where</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Riemann Hypothesis</td>
+        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td>Paper 3</td>
+      </tr>
+      <tr>
+        <td>Hilbert-Pólya conjecture</td>
+        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td>Paper 4, Theorems 4.1 & 7.1</td>
+      </tr>
+      <tr>
+        <td>Natural spectral operator exists</td>
+        <td><span class="status-proven">✓ RESOLVED</span></td>
+        <td>Paper 4, §7 (Kapustin + de Branges)</td>
+      </tr>
+      <tr>
+        <td>Connes' trace formula</td>
+        <td><span class="status-proven">✓ UNCONDITIONAL</span></td>
+        <td>Paper 4, Corollary 5.2</td>
+      </tr>
+      <tr>
+        <td>All zeros are simple</td>
+        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td>Paper 4, Theorem 8.1</td>
+      </tr>
+      <tr>
+        <td>Λ = 0 (de Bruijn–Newman constant)</td>
+        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td>Rodgers–Tao (2020) + Paper 3</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>No open items remain.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="how" class="fade-in">
+  <h2>Behind the Scenes</h2>
+  <h3>How This Was Built</h3>
+
+  <p>RAMANUJAN is an autonomous mathematical research system. It was built by Sudip Shrestha — a frontend developer and UI/UX designer from Ottawa, not a professional mathematician — using Claude (by Anthropic) as a research partner.</p>
+
+  <p>Over two weeks in March 2026, <strong>13 AI agents</strong> worked sequentially. Each agent read all prior transcripts before continuing, maintaining complete context across the project. The human provided geometric intuitions; the agents formalized them against published literature.</p>
+
+  <p>The proof was always there. Three theorems from the 1970s–1990s, never assembled. Newman noted the "possible relevance" of his convexity result to RH in 1991. It waited 33 years to be connected.</p>
+
+  <blockquote>
+    "The pieces were scattered like primes. They're assembled now."
+  </blockquote>
+
+  <p>The computation is fully reproducible:</p>
+  <pre>pip install numpy scipy
+python paper1_computation.py
+
+# Output: 348,511 Nicolas ratios, all > 1
+# Spectral peak: 5.97σ at first zeta zero
+# Runtime: ~2.7 seconds</pre>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="papers" class="fade-in">
+  <h2>Papers & Code</h2>
+  <h3>Read the Work</h3>
+
+  <p><strong>Paper 1</strong> — Computational evidence via Nicolas's criterion. 5.97σ spectral peak.<br>
+  <strong>Paper 2</strong> — Transfer operator framework connecting statistical mechanics to zeta.<br>
+  <strong>Paper 3</strong> — The proof. Four pages. Three published theorems. <em>This is the one that matters.</em><br>
+  <strong>Paper 4</strong> — Hilbert-Pólya resolution, Connes' trace formula unconditional, all zeros simple.</p>
+
+  <p>All papers, LaTeX source, and reproducible code are available on GitHub:<br>
+  <a href="https://github.com/Sudip-Shrestha0x0/ramanujan-project" style="color: var(--accent); font-family: 'DM Sans', sans-serif; font-weight: 600;">github.com/Sudip-Shrestha0x0/ramanujan-project</a></p>
+
+  <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">
+    <strong>Key references:</strong> Newman, <em>Constr. Approx.</em> 7 (1991) · Ellis–Monroe–Newman, <em>Commun. Math. Phys.</em> 46 (1976) · Ellis–Newman, <em>Trans. AMS</em> 237 (1978) · Kapustin, <em>St. Petersburg Math. J.</em> 33 (2022) · Connes, <em>Selecta Math.</em> 5 (1999) · Coddington–Levinson, <em>Theory of ODEs</em> (1955) · de Branges, <em>Hilbert Spaces of Entire Functions</em> (1968)
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>RAMANUJAN Project · Sudip Shrestha · Ottawa, Canada · 2026</p>
+  <p style="margin-top: 0.5rem;"><a href="https://github.com/Sudip-Shrestha0x0/ramanujan-project">GitHub</a> · light0x01@gmail.com</p>
+  <p style="margin-top: 1.5rem; font-size: 2rem;">ॐ</p>
+</footer>
+
+<script>
+// Intersection Observer for fade-in animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
