@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAMANUJAN Project — Proof of the Riemann Hypothesis</title>
-<link rel="icon" type="image/x-icon" href="./favicon.ico">
+<title>RAMANUJAN Project — An Attempt at the Riemann Hypothesis</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="./favicon.ico">
 <style>
 :root {
   --bg: #faf8f5;
@@ -17,6 +17,9 @@
   --card-bg: #fff;
   --code-bg: #f0ece6;
   --proven: #2d7d46;
+  --gap: #c0392b;
+  --gap-bg: #fdf0ed;
+  --conditional: #b8860b;
   --section-gap: 5rem;
 }
 
@@ -90,7 +93,8 @@ nav {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.82rem;
   overflow-x: auto;
-  white-space: nowrap;  text-align: center;
+  white-space: nowrap;
+  text-align: center;
 }
 
 nav a {
@@ -258,6 +262,37 @@ pre {
   margin: 1.5rem 0;
 }
 
+/* ── WARNING ── */
+.gap-notice {
+  background: var(--gap-bg);
+  border: 2px solid var(--gap);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.gap-notice .gap-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gap);
+  margin-bottom: 0.7rem;
+}
+
+.status-gap {
+  color: var(--gap);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.status-conditional {
+  color: var(--conditional);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
 /* ── FOOTER ── */
 footer {
   text-align: center;
@@ -294,14 +329,15 @@ footer a { color: var(--accent); text-decoration: none; }
 
 <header>
   <div class="overline">RAMANUJAN Project · March 2026</div>
-  <h1>A Proof of the Riemann Hypothesis</h1>
-  <p class="subtitle">How three published theorems from the 1970s–1990s, never previously assembled, resolve one of mathematics' oldest unsolved problems — in four pages.</p>
+  <h1>An Attempt at the Riemann Hypothesis</h1>
+  <p class="subtitle">An assembly of published theorems from the 1970s–1990s via the Lee–Yang route — with a known gap identified by Charles Newman (NYU), and spectral consequences conditional on RH.</p>
   <p class="author">Sudip Shrestha · Ottawa, Canada · <a href="https://github.com/Sudip-Shrestha0x0/ramanujan-project">GitHub</a></p>
 </header>
 
 <nav>
+  <a href="#gap" style="color: var(--gap);">⚠ Known Gap</a>
   <a href="#what">What is RH?</a>
-  <a href="#proof">The Proof</a>
+  <a href="#proof">The Attempt</a>
   <a href="#eigenvalues">Eigenvalues</a>
   <a href="#simplicity">Simplicity</a>
   <a href="#results">Results</a>
@@ -310,6 +346,17 @@ footer a { color: var(--accent); text-decoration: none; }
 </nav>
 
 <main>
+
+<!-- ═══════════════════════════════════════════ -->
+<section id="gap" class="fade-in">
+  <div class="gap-notice">
+    <div class="gap-label">⚠ Known Gap — March 18, 2026</div>
+    <p><strong>Charles M. Newman (NYU)</strong> — the author of the key 1991 paper cited in this work — identified a gap in the proof chain.</p>
+    <p style="margin-top: 1rem;">Paper 3 claimed that class G⁻ measures (from Ellis–Monroe–Newman, 1976) have the <strong>Lee–Yang property</strong>. This is not established. What EMN76 actually proves is that class G⁻ measures satisfy the <strong>GHS inequality</strong> — a related but different property. The known implication goes the other direction: Lee–Yang implies GHS (Newman, 1975), not GHS implies Lee–Yang.</p>
+    <p style="margin-top: 1rem;"><strong>Status:</strong> Paper 3's claim of proving RH has an unresolved gap at Step 2. All downstream results (Paper 4) are conditional on closing this gap. The open question: does the xi function measure have the Lee–Yang property?</p>
+    <p style="margin-top: 1rem;">Papers 1 (computation) and 2 (framework) remain valid. Paper 4's spectral results hold conditional on RH being proved by any method.</p>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════ -->
 <section id="what" class="fade-in">
@@ -333,46 +380,46 @@ footer a { color: var(--accent); text-decoration: none; }
 <!-- ═══════════════════════════════════════════ -->
 <section id="proof" class="fade-in">
   <h2>Paper 3</h2>
-  <h3>The Proof — In Plain English</h3>
+  <h3>The Attempted Proof — And Where It Breaks</h3>
 
-  <p>The proof doesn't use any new mathematics. It assembles three existing theorems — published between 1976 and 1991, all peer-reviewed — into a four-page argument that nobody had previously assembled.</p>
+  <p>The proof attempted to assemble three existing theorems — published between 1976 and 1991, all peer-reviewed — into a four-page argument via the Lee–Yang route from statistical mechanics.</p>
 
   <p>The key idea comes from physics. In the 1950s, two physicists — T.D. Lee and C.N. Yang — proved a theorem about magnets: under certain conditions, the "partition function" of a magnet has no zeros in a particular region. This is called the <strong>Lee-Yang property</strong>.</p>
 
-  <p>It turns out the Riemann zeta function can be written as a partition function. And the conditions for the Lee-Yang property can be checked directly.</p>
+  <p>The Riemann zeta function can be written as a partition function. The question is whether the conditions for the Lee-Yang property are met.</p>
 
   <div class="proof-chain">
     <div class="proof-step">
       <div class="step-num">1</div>
       <div class="step-text">
-        <strong>Newman (1991)</strong> proved that a certain mathematical "potential" V — which determines the shape of the xi function — has a specific curvature property: V is symmetric, and its derivative V' is convex.
+        <strong>Newman (1991)</strong> proved that a certain mathematical "potential" V — which determines the shape of the xi function — has a specific curvature property: V is symmetric, and its derivative V' is convex. <strong style="color: var(--proven);">✓ Correct and unconditional.</strong>
         <div class="ref">Published: Constructive Approximation, Vol. 7, 1991</div>
       </div>
     </div>
     <div class="proof-step">
-      <div class="step-num">2</div>
+      <div class="step-num" style="background: var(--gap);">2</div>
       <div class="step-text">
-        <strong>Ellis, Monroe, and Newman (1976)</strong> proved that any measure with the properties Newman found belongs to a class called G⁻, which automatically has the Lee-Yang property. This means: the partition function Z(h) has <em>no zeros</em> where Re(h) > 0.
+        <strong>Ellis, Monroe, and Newman (1976)</strong> proved that any measure with the properties Newman found belongs to a class called G⁻. The paper claimed this gives the Lee-Yang property. <strong style="color: var(--gap);">✗ This is the gap.</strong> EMN76 proves G⁻ → GHS inequality (concavity of magnetization), NOT G⁻ → Lee-Yang property (zero-free region). These are related but distinct properties. Newman himself confirmed this gap on March 18, 2026.
         <div class="ref">Published: Communications in Mathematical Physics, Vol. 46, 1976</div>
       </div>
     </div>
     <div class="proof-step">
-      <div class="step-num">3</div>
+      <div class="step-num" style="background: #999;">3</div>
       <div class="step-text">
-        <strong>Symmetry</strong> takes care of the other side. Because V is symmetric (even), Z(−h) = Z(h), so Z also has no zeros where Re(h) < 0. That leaves only one place for zeros: the boundary, where Re(h) = 0.
+        <strong>Symmetry</strong> — would take care of the other side, IF Step 2 held.
       </div>
     </div>
     <div class="proof-step">
-      <div class="step-num">4</div>
+      <div class="step-num" style="background: #999;">4</div>
       <div class="step-text">
-        <strong>The identity theorem</strong> connects Z to the xi function: Ξ(x/2) = 2C⁻¹Z(ix). This rotation maps Re(h) = 0 to the real axis. So all zeros of Ξ are real — which is exactly the Riemann Hypothesis.
+        <strong>The identity theorem</strong> — would complete the proof, IF Step 2 held.
       </div>
     </div>
   </div>
 
-  <p>Ellis and Newman (1978) proved these conditions are not just sufficient but <em>necessary and sufficient</em>, confirming the classification is tight.</p>
+  <p>Newman noted in 1991 that his convexity result had "possible relevance" to RH via the Lee-Yang framework. We now understand exactly why he couldn't close the connection — the bridge from GHS to Lee-Yang doesn't exist in general.</p>
 
-  <p>Newman himself noted in 1991 that his convexity result had "possible relevance" to RH via the Lee-Yang framework. That relevance turned out to be everything. The bridge he built sat empty for 33 years.</p>
+  <p>The open question: <strong>can the Lee–Yang property be established for the xi function measure through some other route?</strong> This remains under investigation.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -388,17 +435,17 @@ footer a { color: var(--accent); text-decoration: none; }
     <p>The Hilbert-Pólya conjecture asks: is there a "string" whose natural frequencies are exactly the zeta zeros?</p>
   </div>
 
-  <p>With RH proven, we can answer this in two ways:</p>
+  <p>With RH proven <em>(by any method — not yet achieved; see the gap above)</em>, we could answer this in two ways:</p>
 
-  <p><strong>The trivial answer (Theorem 4.1):</strong> Since we now know all the zeros are real numbers, we can just build a diagonal operator with those numbers as eigenvalues. This is like listing the frequencies by hand. Correct, but it doesn't explain anything.</p>
+  <p><strong>The trivial answer (Theorem 4.1):</strong> If all the zeros are real numbers, we can build a diagonal operator with those numbers as eigenvalues. This is like listing the frequencies by hand. Correct, but it doesn't explain anything.</p>
 
   <p><strong>The natural answer (Theorem 7.1):</strong> In 2022, the Russian mathematician V.V. Kapustin constructed something much deeper. He built a <em>canonical system</em> — a specific type of differential equation — whose eigenvalues are exactly the zeta zeros. This canonical system lives in a <strong>de Branges space</strong>, a special Hilbert space developed by Louis de Branges in 1968.</p>
 
   <p>The key: the zeros aren't put in by hand. You feed in the potential V (the same V from Newman's theorem), and the zeros <em>come out</em> as eigenvalues. The string creates the frequencies.</p>
 
-  <p>Our proof of RH makes Kapustin's operator unconditionally self-adjoint — the mathematical guarantee that the eigenvalues are real.</p>
+  <p>A proof of RH would make Kapustin's operator unconditionally self-adjoint — the mathematical guarantee that the eigenvalues are real.</p>
 
-  <p><strong>Bonus:</strong> Alain Connes proved in 1999 that a certain trace formula on the "adèle class space" is equivalent to RH. With RH proven, this trace formula — one of the deepest results in spectral number theory — is now an unconditional theorem.</p>
+  <p><strong>Bonus:</strong> Alain Connes proved in 1999 that a certain trace formula on the "adèle class space" is equivalent to RH. A proof of RH would make this trace formula an unconditional theorem.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -413,21 +460,21 @@ footer a { color: var(--accent); text-decoration: none; }
     <p>On a guitar string, two different harmonics could theoretically have the same frequency (this is called "degeneracy"). In practice, for a simple string, every frequency is distinct. The question is whether the zeta "string" has the same property.</p>
   </div>
 
-  <p>We prove it does (Theorem 8.1). The argument combines Kapustin's canonical system with a classical theorem from 1836:</p>
+  <p>We show that it would (Theorem 8.1), <em>conditional on RH</em>. The argument combines Kapustin's canonical system with a classical theorem from 1836:</p>
 
   <p><strong>Kapustin's system</strong> has a diagonal Hamiltonian. A 2×2 canonical system with diagonal Hamiltonian is equivalent to a scalar second-order differential equation — a <strong>Sturm-Liouville equation</strong>.</p>
 
   <p><strong>Sturm's theorem (1836)</strong>: Every eigenvalue of a self-adjoint Sturm-Liouville problem has multiplicity one. The proof is elementary: if two eigenfunctions share an eigenvalue and both satisfy the boundary condition, their Wronskian vanishes everywhere, so they must be proportional. One eigenvalue, one eigenfunction, one direction. Simple.</p>
 
-  <p>Since our RH proof makes the operator self-adjoint, the spectral theorem gives algebraic multiplicity = geometric multiplicity = 1. Every zero is simple.</p>
+  <p>A proof of RH would make the operator self-adjoint, and the spectral theorem would give algebraic multiplicity = geometric multiplicity = 1. Every zero would be simple.</p>
 
-  <p>This is independently confirmed by the de Bruijn–Newman heat flow: Rodgers and Tao (2020) showed that the zeros repel each other with infinite force as they approach — they literally cannot collide.</p>
+  <p>This is independently supported by the de Bruijn–Newman heat flow: Rodgers and Tao (2020) showed that the zeros repel each other with infinite force as they approach — they literally cannot collide.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
 <section id="results" class="fade-in">
   <h2>Summary</h2>
-  <h3>Everything That's Proven</h3>
+  <h3>Current Status</h3>
 
   <table class="results-table">
     <thead>
@@ -436,38 +483,38 @@ footer a { color: var(--accent); text-decoration: none; }
     <tbody>
       <tr>
         <td>Riemann Hypothesis</td>
-        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td><span class="status-gap">⚠ GAP at Step 2</span></td>
         <td>Paper 3</td>
       </tr>
       <tr>
         <td>Hilbert-Pólya conjecture</td>
-        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td><span class="status-conditional">Conditional on RH</span></td>
         <td>Paper 4, Theorems 4.1 & 7.1</td>
       </tr>
       <tr>
         <td>Natural spectral operator exists</td>
-        <td><span class="status-proven">✓ RESOLVED</span></td>
+        <td><span class="status-conditional">Conditional on RH</span></td>
         <td>Paper 4, §7 (Kapustin + de Branges)</td>
       </tr>
       <tr>
         <td>Connes' trace formula</td>
-        <td><span class="status-proven">✓ UNCONDITIONAL</span></td>
+        <td><span class="status-conditional">Conditional on RH</span></td>
         <td>Paper 4, Corollary 5.2</td>
       </tr>
       <tr>
         <td>All zeros are simple</td>
-        <td><span class="status-proven">✓ PROVEN</span></td>
+        <td><span class="status-conditional">Conditional on RH</span></td>
         <td>Paper 4, Theorem 8.1</td>
       </tr>
       <tr>
-        <td>Λ = 0 (de Bruijn–Newman constant)</td>
-        <td><span class="status-proven">✓ PROVEN</span></td>
-        <td>Rodgers–Tao (2020) + Paper 3</td>
+        <td>Computational evidence (Nicolas)</td>
+        <td><span class="status-proven">✓ VALID</span></td>
+        <td>Paper 1</td>
       </tr>
     </tbody>
   </table>
 
-  <p>No open items remain.</p>
+  <p>The gap is precise: does the xi function measure exp(−V(t))dt have the Lee-Yang property? This is an open question.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -479,13 +526,13 @@ footer a { color: var(--accent); text-decoration: none; }
 
   <p>Over two weeks in March 2026, <strong>13 AI agents</strong> worked sequentially. Each agent read all prior transcripts before continuing, maintaining complete context across the project. The human provided geometric intuitions; the agents formalized them against published literature.</p>
 
-  <p>The proof was always there. Three theorems from the 1970s–1990s, never assembled. Newman noted the "possible relevance" of his convexity result to RH in 1991. It waited 33 years to be connected.</p>
+  <p>On March 18, 2026, Charles Newman — the author of the key 1991 paper — identified a gap in the proof chain. The agents had conflated the GHS inequality with the Lee-Yang property. This error persisted across 13 agents and two independent AI verdict checks. The project is documented transparently, including the error.</p>
 
   <blockquote>
-    "The pieces were scattered like primes. They're assembled now."
+    "This is how mathematics works — claims are published, scrutinized, and corrected."
   </blockquote>
 
-  <p>The computation is fully reproducible:</p>
+  <p>The computation is fully reproducible and independently valid:</p>
   <pre>pip install numpy scipy
 python paper1_computation.py
 
@@ -499,10 +546,10 @@ python paper1_computation.py
   <h2>Papers & Code</h2>
   <h3>Read the Work</h3>
 
-  <p><strong>Paper 1</strong> — Computational evidence via Nicolas's criterion. 5.97σ spectral peak.<br>
+  <p><strong>Paper 1</strong> — Computational evidence via Nicolas's criterion. 5.97σ spectral peak. <em>Independently valid.</em><br>
   <strong>Paper 2</strong> — Transfer operator framework connecting statistical mechanics to zeta.<br>
-  <strong>Paper 3</strong> — The proof. Four pages. Three published theorems. <em>This is the one that matters.</em><br>
-  <strong>Paper 4</strong> — Hilbert-Pólya resolution, Connes' trace formula unconditional, all zeros simple.</p>
+  <strong>Paper 3</strong> — Attempted proof via Lee–Yang route. <em>Gap at Step 2 (class G⁻ ≠ Lee–Yang).</em><br>
+  <strong>Paper 4</strong> — Spectral consequences: Hilbert-Pólya, Connes, simplicity. <em>Conditional on RH.</em></p>
 
   <p>All papers, LaTeX source, and reproducible code are available on GitHub:<br>
   <a href="https://github.com/Sudip-Shrestha0x0/ramanujan-project" style="color: var(--accent); font-family: 'DM Sans', sans-serif; font-weight: 600;">github.com/Sudip-Shrestha0x0/ramanujan-project</a></p>
